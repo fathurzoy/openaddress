@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Opener</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #333;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #6200ea;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3700b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Address Opener</h1>
+    <input type="text" id="addressInput" placeholder="Enter address (e.g., 7yM71pQti9eR...)" />
+    <button id="openButton">Open Links</button>
+  </div>
+
+  <script>
+    document.getElementById('openButton').addEventListener('click', openTabs);
+    document.getElementById('addressInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        openTabs();
+      }
+    });
+
+    function openTabs() {
+      const address = document.getElementById('addressInput').value.trim();
+      if (!address) {
+        alert('Please enter a valid address.');
+        return;
+      }
+
+      const urls = [
+        `https://dexscreener.com/solana/${address}`,
+        `https://gmgn.ai/sol/token/${address}`,
+        `https://photon-sol.tinyastro.io/en/lp/${address}`,
+        `https://www.antirugagent.com/ca/${address}`,
+        `https://trench.bot/bundles/${address}`
+      ];
+
+      urls.forEach(url => {
+        window.open(url, '_blank');
+      });
+    }
+  </script>
+</body>
+</html>
