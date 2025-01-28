@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Address Opener</title>
+  <title>Open Address Links</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
       background-color: #121212;
       color: #ffffff;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
 
     .container {
@@ -22,73 +22,116 @@
       background-color: #1e1e1e;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     input {
+      width: 80%;
       padding: 10px;
-      width: 300px;
-      border: 1px solid #333;
+      border: none;
       border-radius: 5px;
-      background-color: #333;
-      color: #ffffff;
-      font-size: 16px;
+      margin-bottom: 10px;
     }
 
     button {
       padding: 10px 20px;
-      margin-left: 10px;
       border: none;
       border-radius: 5px;
-      background-color: #6200ea;
-      color: #ffffff;
-      font-size: 16px;
+      background-color: #007bff;
+      color: white;
       cursor: pointer;
     }
 
     button:hover {
-      background-color: #3700b3;
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Address Opener</h1>
-    <input type="text" id="addressInput" placeholder="Enter address (e.g., 7yM71pQti9eR...)" />
-    <button id="openButton">Open Links</button>
+    <h1>Open Address Links</h1>
+    <input type="text" id="addressInput" placeholder="Enter address here..."
+      onkeydown="if(event.key === 'Enter') generateLinks()">
+    <br>
+    <button onclick="generateLinks()">Generate Links</button>
+    <button onclick="openAllLinks()">Open All Links</button>
+    <ul id="linkList"></ul>
   </div>
 
   <script>
-    document.getElementById('openButton').addEventListener('click', openTabs);
-    document.getElementById('addressInput').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        openTabs();
-      }
-    });
+    let urls = [];
 
-    function openTabs() {
+    function generateLinks() {
       const address = document.getElementById('addressInput').value.trim();
-      if (!address) {
+      if (address) {
+        urls = [
+          `https://dexscreener.com/solana/${address}`,
+          `https://gmgn.ai/sol/token/${address}`,
+          `https://photon-sol.tinyastro.io/en/lp/${address}`,
+          `https://www.antirugagent.com/ca/${address}`,
+          `https://trench.bot/bundles/${address}`
+        ];
+
+        const linkList = document.getElementById('linkList');
+        linkList.innerHTML = '';
+
+        urls.forEach(url => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = url;
+          listItem.appendChild(link);
+          linkList.appendChild(listItem);
+        });
+      } else {
         alert('Please enter a valid address.');
-        return;
       }
+    }
 
-      const urls = [
-        `https://dexscreener.com/solana/${address}`,
-        `https://gmgn.ai/sol/token/${address}`,
-        `https://photon-sol.tinyastro.io/en/lp/${address}`,
-        `https://www.antirugagent.com/ca/${address}`,
-        `https://trench.bot/bundles/${address}`
-      ];
+    function openAllLinks() {
+      const address = document.getElementById('addressInput').value.trim();
+      if (address) {
+        urls = [
+          `https://dexscreener.com/solana/${address}`,
+          `https://gmgn.ai/sol/token/${address}`,
+          `https://photon-sol.tinyastro.io/en/lp/${address}`,
+          `https://www.antirugagent.com/ca/${address}`,
+          `https://trench.bot/bundles/${address}`
+        ];
 
-      urls.forEach(url => {
-        window.open(url, '_blank');
-      });
+        if (urls.length > 0) {
+          urls.forEach(url => {
+            setTimeout(() => {
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }, 100);
+          });
+        } else {
+          alert('No links generated yet. Please enter an address and click Generate Links.');
+        }
+      }
     }
   </script>
 </body>
+
 </html>
